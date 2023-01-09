@@ -26,6 +26,9 @@ interface DataApi {
 
     @GET("itineraires_randonnees_ltc?\$format=geojson&\$top=20000")
     fun getRandos(@Query("\$select") select: String = fields.joinToString(separator = ",")): Call<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>
+
+    @GET("itineraires_randonnees_ltc?\$format=geojson&\$top=20000")
+    fun getRandoCoordinates(@Query("\$select") select: String = fields.joinToString(separator = ",") + ",geometry"): Call<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>
 }
 
 class DataFetcher {
@@ -68,6 +71,24 @@ class DataFetcher {
 
     fun fetchRandos(callback: (List<Types>) -> Unit) {
         dataApi.getRandos().enqueue(object: Callback<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse> {
+            override fun onResponse(call: Call<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>, response: Response<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>) {
+                val data = response.body()
+                if (data == null) {
+                    Log.e(TAG, "no data fetched $response")
+                    return
+                }
+                Log.d(TAG, "found ${data.features.size} randos")
+                callback(data.features)
+            }
+
+            override fun onFailure(call: Call<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>, t: Throwable) {
+                Log.e(TAG, "Error fetching data", t)
+            }
+        })
+    }
+
+    fun fetchRandoCoordinates(callback: (List<Types>) -> Unit) {
+        dataApi.getRandoCoordinates().enqueue(object: Callback<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse> {
             override fun onResponse(call: Call<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>, response: Response<fr.enssat.tregorrando.gasniere_lefort.data.json.ListResponse>) {
                 val data = response.body()
                 if (data == null) {

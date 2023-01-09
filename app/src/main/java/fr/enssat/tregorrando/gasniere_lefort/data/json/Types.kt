@@ -7,6 +7,7 @@ import com.squareup.moshi.JsonClass
 data class Types(
     val type: String,
     val properties: Properties,
+    val geometry: Geometry?,
 ) {
     enum class Type {
         @Json(name = "Pédestre") PEDESTRE,
@@ -29,6 +30,11 @@ data class Types(
         @Json(name= "iti_vocati")  val vocation: Type?,
 */
         @Json(name= "iti_nom")     val nom: String
+    )
+
+    data class Geometry(
+        @Json(name= "type") val type: String,
+        @Json(name= "coordinates") val coordinates: List<List<Any>>
     )
 
 }
