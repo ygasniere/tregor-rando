@@ -16,10 +16,10 @@ import fr.enssat.tregorrando.gasniere_lefort.ui.theme.TregorRandoTheme
 class ListActivity : ComponentActivity() {
     companion object {
         val factory = object: ViewModelProvider.Factory {
-            val randosViewModel = DatarmorViewModel()
+            val hikesViewModel = DatarmorViewModel()
 
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return randosViewModel as T
+                return hikesViewModel as T
             }
         }
     }

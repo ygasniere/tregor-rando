@@ -26,14 +26,14 @@ fun RandoList(viewModel: DatarmorViewModel) {
     Column {
         Text(text = "Randos du Trégor", modifier = Modifier.padding(20.dp), style = MaterialTheme.typography.h4)
         Divider(color = Color.Black)
-        val randos: List<Types> = viewModel.randos
+        val hikes: List<Types> = viewModel.hikes
         LazyColumn {
-            items(randos) { rando: Types ->
+            items(hikes) { hike: Types ->
                 ClickableText(
-                    text = AnnotatedString(rando.properties.nom),
+                    text = AnnotatedString(hike.properties.nom),
                     modifier = Modifier.padding(20.dp).fillMaxWidth(),
                     onClick = {
-                        Log.d("SELECT", "selected: $rando")
+                        Log.d("SELECT", "selected: $hike")
                         context.startActivity(Intent(context, MapActivity::class.java))
                     }
                 )

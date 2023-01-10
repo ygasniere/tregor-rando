@@ -1,6 +1,5 @@
 package fr.enssat.tregorrando.gasniere_lefort.ui.map
 
-import android.graphics.Point
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -15,13 +14,12 @@ import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 
 @Composable
-fun MapDetails(rando: Types) {
+fun MapDetails(hike: Types) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Green)
     ) {
-        val enssatCoord = GeoPoint(48.6447666768803, -3.621320067061617)
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = { context ->
@@ -30,40 +28,40 @@ fun MapDetails(rando: Types) {
                     rotationGestureOverlay.isEnabled
                     setMultiTouchControls(true)
                     overlays.add(rotationGestureOverlay)
-
-                    controller.setCenter(enssatCoord)
                     controller.setZoom(18.0)
 
-                    val startPoint = Marker(this).apply {
-                        position = enssatCoord
-                        title = "Départ"
-                    }
-                    overlays.add(startPoint)
-                    val polyline = Polyline(this)
-                    /*val line: List<GeoPoint> =
-                        listOf(GeoPoint(48.7287, -3.4631), GeoPoint(enssatCoord.latitude,enssatCoord.longitude-0.0001))
-                    polyline.setPoints(line)
-                    overlays.add(polyline)*/
+                    var polyline = Polyline(this)
+                    var points: ArrayList<GeoPoint> = arrayListOf()
+                    var startingCoordinates = GeoPoint(0.0, 0.0)
 
-
-                    val points: ArrayList<GeoPoint> = arrayListOf()
-                    if (rando.geometry?.type === "MultiLineString") {
-                        rando.geometry.coordinates as List<List<List<Double>>>
-                        for (x in rando.geometry.coordinates) {
-                            for (y in x) {
-                                points.add(GeoPoint(y[1], y[0]))
+                    if (hike.geometry?.type == "MultiLineString") {
+                        hike.geometry.coordinates as List<List<List<Double>>>
+                        startingCoordinates = GeoPoint(hike.geometry.coordinates[0][0][1], hike.geometry.coordinates[0][0][0])
+                        controller.setCenter(startingCoordinates)
+                        for (segment in hike.geometry.coordinates) {
+                            for (point in segment) {
+                                points.add(GeoPoint(point[1], point[0]))
                             }
                             polyline.setPoints(points)
+                            overlays.add(polyline)
+                            points = arrayListOf()
                         }
-                        overlays.add(polyline)
-                    } else if (rando.geometry?.type === "LineString") {
-                        rando.geometry.coordinates as List<List<Double>>
-                        for (z in rando.geometry.coordinates) {
-                            points.add(GeoPoint(z[1], z[0]))
+                    } else if (hike.geometry?.type == "LineString") {
+                        hike.geometry.coordinates as List<List<Double>>
+                        startingCoordinates = GeoPoint(hike.geometry.coordinates[0][1], hike.geometry.coordinates[0][0])
+                        for (point in hike.geometry.coordinates) {
+                            points.add(GeoPoint(point[1], point[0]))
                         }
                         polyline.setPoints(points)
                         overlays.add(polyline)
                     }
+
+                    val startingPoint = Marker(this).apply {
+                        position = startingCoordinates
+                        title = "Start"
+                    }
+                    overlays.add(startingPoint)
+                    controller.setCenter(startingCoordinates)
                 }
             })
     }

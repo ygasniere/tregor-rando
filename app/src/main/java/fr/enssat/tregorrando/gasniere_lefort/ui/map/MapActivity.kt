@@ -19,8 +19,7 @@ class MapActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel: DatarmorViewModel by viewModels { ListActivity.factory }
-        viewModel.getRandoWithCoord()
-        val rando = viewModel.randos[0]
+        val hike = viewModel.hikes[1]
 
         // Configuration pour Open Street Map
         Configuration.getInstance().load(this, getSharedPreferences("osm", Context.MODE_PRIVATE))
@@ -30,7 +29,7 @@ class MapActivity: ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
-                ) { MapDetails(rando = rando) }
+                ) { MapDetails(hike = hike) }
             }
         }
     }
