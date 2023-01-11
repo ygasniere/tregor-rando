@@ -39,12 +39,13 @@ fun MapDetails(hike: Types) {
                         startingCoordinates = GeoPoint(hike.geometry.coordinates[0][0][1], hike.geometry.coordinates[0][0][0])
                         controller.setCenter(startingCoordinates)
                         for (segment in hike.geometry.coordinates) {
+                            polyline = Polyline()
+                            points = arrayListOf()
                             for (point in segment) {
                                 points.add(GeoPoint(point[1], point[0]))
                             }
                             polyline.setPoints(points)
                             overlays.add(polyline)
-                            points = arrayListOf()
                         }
                     } else if (hike.geometry?.type == "LineString") {
                         hike.geometry.coordinates as List<List<Double>>
