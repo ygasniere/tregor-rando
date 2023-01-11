@@ -57,11 +57,11 @@ fun MapDetails(hike: Types) {
                         overlays.add(polyline)
                     }
 
-                    val startingPoint = Marker(this).apply {
+                    val startingMarker = Marker(this).apply {
                         position = startingCoordinates
-                        title = "Start"
+                        title = "Starting marker : \n[" + hike.properties.nom + "]"
                     }
-                    overlays.add(startingPoint)
+                    overlays.add(startingMarker)
                     controller.setCenter(startingCoordinates)
                 }
             })
