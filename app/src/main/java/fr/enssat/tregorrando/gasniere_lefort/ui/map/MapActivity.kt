@@ -19,7 +19,7 @@ class MapActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel: DatarmorViewModel by viewModels { ListActivity.factory }
-        val hike = viewModel.hikes[1]
+        val hike = viewModel.hikes[intent.getIntExtra("selectedHikeIndex", 0)]
 
         // Configuration pour Open Street Map
         Configuration.getInstance().load(this, getSharedPreferences("osm", Context.MODE_PRIVATE))

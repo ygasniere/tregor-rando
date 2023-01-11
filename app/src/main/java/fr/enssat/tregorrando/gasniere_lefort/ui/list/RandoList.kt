@@ -34,7 +34,9 @@ fun RandoList(viewModel: DatarmorViewModel) {
                     modifier = Modifier.padding(20.dp).fillMaxWidth(),
                     onClick = {
                         Log.d("SELECT", "selected: $hike")
-                        context.startActivity(Intent(context, MapActivity::class.java))
+                        context.startActivity(Intent(context, MapActivity::class.java).apply {
+                            putExtra("selectedHikeIndex", hikes.indexOf(hike))
+                        })
                     }
                 )
                 Divider(color = Color.Black)
