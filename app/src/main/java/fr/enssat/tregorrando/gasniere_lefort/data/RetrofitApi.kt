@@ -12,7 +12,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Query
 import java.security.cert.X509Certificate
 import java.util.concurrent.Executors
 import javax.net.ssl.SSLContext
@@ -21,7 +20,7 @@ import javax.net.ssl.X509TrustManager
 
 interface DataApi {
     companion object {
-        val fields = listOf("iti_nom", "iti_long")
+        val fields = listOf("iti_nom", "iti_long", "iti_com_li", "iti_id", "iti_com_in", "iti_balisa", "iti_sens_p", "iti_vocati")
     }
 
     @GET("itineraires_randonnees_ltc?\$format=geojson&\$top=20000")

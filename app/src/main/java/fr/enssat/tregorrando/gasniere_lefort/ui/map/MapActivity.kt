@@ -11,7 +11,6 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import fr.enssat.tregorrando.gasniere_lefort.model.DatarmorViewModel
 import fr.enssat.tregorrando.gasniere_lefort.ui.list.ListActivity
-import fr.enssat.tregorrando.gasniere_lefort.ui.map.MapDetails
 import fr.enssat.tregorrando.gasniere_lefort.ui.theme.TregorRandoTheme
 import org.osmdroid.config.Configuration
 

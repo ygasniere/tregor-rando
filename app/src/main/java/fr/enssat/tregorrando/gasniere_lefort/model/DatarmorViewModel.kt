@@ -6,11 +6,14 @@ import fr.enssat.tregorrando.gasniere_lefort.data.DataFetcher
 import fr.enssat.tregorrando.gasniere_lefort.data.json.Types
 
 class DatarmorViewModel: ViewModel() {
+
     val hikes = mutableStateListOf<Types>()
 
     init {
         DataFetcher().apply {
-            fetchHikes { list -> hikes.addAll(list) }
+            fetchHikes { list ->
+                hikes.addAll(list)
+            }
         }
     }
 }
